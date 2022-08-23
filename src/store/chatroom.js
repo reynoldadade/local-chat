@@ -1,6 +1,6 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit";
 
-const chatRoomSlice = createSlice({
+export const chatRoomSlice = createSlice({
   name: "Chatroom",
   initialState: {
     // chat messages
@@ -9,11 +9,17 @@ const chatRoomSlice = createSlice({
     username: "",
   },
   reducers: {
-    sendMessage: (state, payload) => {
+    sendMessage: (state, action) => {
       state.messages = [
         ...state.messages,
-        { message: payload, username: state.username },
+        { message: action.payload, username: state.username },
       ];
     },
   },
 });
+
+// action creators need to be generated for each reducer created
+export const { sendMessage } = chatRoomSlice.actions;
+
+// export your reducer
+export default chatRoomSlice.reducer;

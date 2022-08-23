@@ -1,6 +1,10 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { sendMessage } from "../store/chatroom";
 
 const ChatRoom = () => {
+  // create dispatch instance
+  const dispatch = useDispatch();
   // create message variable
   const [message, setMessage] = useState("");
   // handle when send message button is clicked

@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 export const chatRoomSlice = createSlice({
   name: "Chatroom",
@@ -10,13 +10,23 @@ export const chatRoomSlice = createSlice({
   },
   reducers: {
     sendMessage: (state, action) => {
+      // when a message is sent an object with {username: '', message: '', time: ''} will be created to push to the chat array
       state.messages = [
         ...state.messages,
-        { message: action.payload, username: state.username },
+        { message: action.payload, username: state.username, time: Date.now() },
       ];
     },
   },
 });
+
+// selectors
+export const selectMessages = (state) => state.message;
+export const selectLastMessages = createSelector(
+  // accept a parameter of page number
+  [selectMessages, (state, pageNumber) => pageNumber],
+  // and when page number is passed use it to get last items in the array
+  (messages, pageNumber) => messages.slice(-25 * pageNumber)
+);
 
 // action creators need to be generated for each reducer created
 export const { sendMessage } = chatRoomSlice.actions;

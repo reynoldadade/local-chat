@@ -20,12 +20,12 @@ export const chatRoomSlice = createSlice({
 });
 
 // selectors
-export const selectMessages = (state) => state.message;
+export const selectMessages = (state) => state.chatRoom.messages;
 export const selectLastMessages = createSelector(
   // accept a parameter of page number
   [selectMessages, (state, pageNumber) => pageNumber],
   // and when page number is passed use it to get last items in the array
-  (messages, pageNumber) => messages.slice(-25 * pageNumber)
+  (messages, pageNumber = 1) => messages.slice(-25 * pageNumber)
 );
 
 // action creators need to be generated for each reducer created

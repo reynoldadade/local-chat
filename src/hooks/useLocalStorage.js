@@ -21,8 +21,10 @@ export const useLocalStorage = (key, defaultValue) => {
     setValue(JSON.parse(newValue));
   };
   useEffect(() => {
+    // create a storage event listener to listen for changes acrosss tabs
     window.addEventListener("storage", onStorageCalled);
 
+    // cleanup when component is destroyed
     return () => {
       window.removeEventListener("storage", onStorageCalled);
     };

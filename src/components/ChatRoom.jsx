@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { getUsername } from "../store/chatroom";
 import ChatBubble from "../components/ChatBubble";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useSelector } from "react-redux";
 
 const ChatRoom = () => {
-  // const chats = useSelector((state) => selectLastMessages(state, 1));
   const [chats, setChats] = useLocalStorage("messages", []);
   const username = useSelector(getUsername);
+
+  //pageNumbers
+  const [page, setPage] = useState("1");
   // create message variable
   const [message, setMessage] = useState("");
   // handle when send message button is clicked
@@ -22,6 +24,21 @@ const ChatRoom = () => {
     setMessage(e.target.value);
   };
 
+  const handleScroll = (e) => {
+    if (e.target.scrollTop === 0) {
+      console.log(true);
+    }
+    console.log(false);
+  };
+
+  // filter first 25
+  const paginate = (page = 1, chats = []) => {
+    return chats.slice(-25 * page);
+  };
+  //memoize these expensive calculaitons
+
+  const currentChats = useMemo(() => paginate(page, chats), [page, chats]);
+
   return (
     <div className="w-screen h-screen flex flex-col">
       <div className="w-full p-2 shadow-lg bg-purple-400 text-white">
@@ -31,8 +48,11 @@ const ChatRoom = () => {
         id="message-view"
         className="flex flex-col justify-between flex-grow"
       >
-        <div className="overflow-y-scroll flex-grow h-72">
-          {chats.map((chat, index) => (
+        <div
+          className="overflow-y-scroll flex-grow h-72"
+          onScroll={handleScroll}
+        >
+          {currentChats.map((chat, index) => (
             <ChatBubble chat={chat} key={index} />
           ))}
         </div>

@@ -16,5 +16,17 @@ export const useLocalStorage = (key, defaultValue) => {
     localStorage.setItem(key, JSON.stringify(value));
   }, [key, value]);
 
+  const onStorageCalled = (e) => {
+    const { newValue } = e;
+    setValue(JSON.parse(newValue));
+  };
+  useEffect(() => {
+    window.addEventListener("storage", onStorageCalled);
+
+    return () => {
+      window.removeEventListener("storage", onStorageCalled);
+    };
+  }, []);
+
   return [value, setValue];
 };

@@ -1,21 +1,19 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { getUsername } from "../store/chatroom";
 import ChatBubble from "../components/ChatBubble";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useSelector } from "react-redux";
 
 const ChatRoom = () => {
-  // create dispatch instance
-  const dispatch = useDispatch();
-  // get your selector
   // const chats = useSelector((state) => selectLastMessages(state, 1));
   const [chats, setChats] = useLocalStorage("messages", []);
+  const username = useSelector(getUsername);
   // create message variable
   const [message, setMessage] = useState("");
   // handle when send message button is clicked
   const sendMessageHandler = () => {
     // dispatch(sendMessage(message));
-    setChats([...chats, { message, username: getUsername, time: Date.now() }]);
+    setChats([...chats, { message, username, time: Date.now() }]);
     // when message is sent clear message
     setMessage("");
   };
@@ -33,7 +31,7 @@ const ChatRoom = () => {
         id="message-view"
         className="flex flex-col justify-between flex-grow"
       >
-        <div className="flex-grow oveflow-y-auto">
+        <div className="overflow-y-scroll flex-grow h-72">
           {chats.map((chat, index) => (
             <ChatBubble chat={chat} key={index} />
           ))}

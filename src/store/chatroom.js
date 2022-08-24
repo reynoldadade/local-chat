@@ -7,6 +7,8 @@ export const chatRoomSlice = createSlice({
     messages: [],
     // name of user entering the chat
     username: "",
+    // used to toggle overlay on and off
+    overlay: true,
   },
   reducers: {
     sendMessage: (state, action) => {
@@ -15,6 +17,14 @@ export const chatRoomSlice = createSlice({
         ...state.messages,
         { message: action.payload, username: state.username, time: Date.now() },
       ];
+    },
+    saveName: (state, action) => {
+      // save username
+      state.username = action.payload;
+    },
+    showOverlay: (state, action) => {
+      // turn overlay on or off
+      state.overlay = action.payload;
     },
   },
 });
@@ -27,9 +37,11 @@ export const selectLastMessages = createSelector(
   // and when page number is passed use it to get last items in the array
   (messages, pageNumber = 1) => messages.slice(-25 * pageNumber)
 );
+// get the overlay state
+export const getOverlayState = (state) => state.chatRoom.overlay;
 
 // action creators need to be generated for each reducer created
-export const { sendMessage } = chatRoomSlice.actions;
+export const { sendMessage, saveName, showOverlay } = chatRoomSlice.actions;
 
 // export your reducer
 export default chatRoomSlice.reducer;

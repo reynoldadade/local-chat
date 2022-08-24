@@ -27,17 +27,30 @@ const ChatRoom = () => {
   const handleScroll = (e) => {
     if (e.target.scrollTop === 0) {
       console.log(true);
+      // if the totalPages is greater than current page we can increase pages number
+      if (totalPages > setPage) {
+        return setPage(page + 1);
+      }
+      // else return the maximum page number
+      return setPage(totalPages);
     }
-    console.log(false);
   };
 
   // filter first 25
   const paginate = (page = 1, chats = []) => {
     return chats.slice(-25 * page);
   };
-  //memoize these expensive calculaitons
 
+  const calcPages = (chats = []) => {
+    const length = chats.length;
+    if (length <= 25) return 1;
+    return Math.ceil(chats.length / 25);
+  };
+  //memoize these expensive calculations
+  // get current chats to display on screen
   const currentChats = useMemo(() => paginate(page, chats), [page, chats]);
+  // get total number of pages possible if there are only 25 items per page
+  const totalPages = useMemo(() => calcPages(chats), [chats]);
 
   return (
     <div className="w-screen h-screen flex flex-col">
@@ -67,7 +80,8 @@ const ChatRoom = () => {
           />
           <button
             onClick={sendMessageHandler}
-            className="bg-blue-500 text-white rounded-lg py-1 px-4 flex items-center"
+            className="bg-blue-500 text-white rounded-lg py-1 px-4 flex items-center disabled:bg-gray-500 disabled:bg-opacity-50"
+            disabled={!message}
           >
             <span>
               <svg

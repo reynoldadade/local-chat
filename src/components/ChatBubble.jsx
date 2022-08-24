@@ -1,6 +1,11 @@
+import { getUsername } from "../store/chatroom";
 const ChatBubble = ({ chat }) => {
   return (
-    <div className="flex">
+    <div
+      className={`flex ${
+        getUsername !== chat.username ? "flex-row-reverse" : "flex-row"
+      }`}
+    >
       <div className="p-2 rounded-lg bg-blue-500 text-white w-[500px] m-2 text-sm">
         {chat.message}{" "}
       </div>

@@ -39,6 +39,8 @@ export const selectLastMessages = createSelector(
 );
 // get the overlay state
 export const getOverlayState = (state) => state.chatRoom.overlay;
+//get username
+export const getUsername = (state) => state.chatRoom.username;
 
 // action creators need to be generated for each reducer created
 export const { sendMessage, saveName, showOverlay } = chatRoomSlice.actions;

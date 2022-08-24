@@ -1,18 +1,21 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { sendMessage, selectLastMessages } from "../store/chatroom";
+import { useDispatch } from "react-redux";
+import { getUsername } from "../store/chatroom";
 import ChatBubble from "../components/ChatBubble";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const ChatRoom = () => {
   // create dispatch instance
   const dispatch = useDispatch();
   // get your selector
-  const chats = useSelector((state) => selectLastMessages(state, 1));
+  // const chats = useSelector((state) => selectLastMessages(state, 1));
+  const [chats, setChats] = useLocalStorage("messages", []);
   // create message variable
   const [message, setMessage] = useState("");
   // handle when send message button is clicked
   const sendMessageHandler = () => {
-    dispatch(sendMessage(message));
+    // dispatch(sendMessage(message));
+    setChats([...chats, { message, username: getUsername, time: Date.now() }]);
     // when message is sent clear message
     setMessage("");
   };
@@ -55,7 +58,7 @@ const ChatRoom = () => {
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-4 h-4"
+                className="w-4 h-4"
               >
                 <path
                   stroke-linecap="round"

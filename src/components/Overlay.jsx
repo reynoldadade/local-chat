@@ -22,7 +22,10 @@ const Overlay = () => {
   };
 
   return (
-    <div className="w-screen h-screen fixed bg-black bg-opacity-50 z-20 flex items-center justify-center">
+    <div
+      className="w-screen h-screen fixed bg-black bg-opacity-50 z-20 flex items-center justify-center"
+      data-testid="overlayComponent"
+    >
       {/* insert a modal to collect the users name */}
       <div className="rounded-lg shadow-lg bg-white text-blue-500 w-72 h-40 text-center p-4">
         <div>Enter username</div>

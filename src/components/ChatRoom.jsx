@@ -62,7 +62,7 @@ const ChatRoom = () => {
         className="flex flex-col justify-between flex-grow"
       >
         <div
-          className="overflow-y-scroll flex-grow h-72"
+          className="overflow-y-scroll flex-grow h-72 flex-col flex w-full"
           onScroll={handleScroll}
         >
           {currentChats.map((chat, index) => (

@@ -33,6 +33,7 @@ const Overlay = () => {
             placeholder="username"
             value={name}
             onInput={nameInputHandler}
+            data-testid="usernameInput"
           />
         </div>
         <div>
@@ -40,6 +41,7 @@ const Overlay = () => {
             className="border w-full my-2 p-2 bg-blue-500 text-white rounded-lg disabled:opacity-50"
             disabled={!name}
             onClick={saveNameHandler}
+            data-testid="startButton"
           >
             Start
           </button>
